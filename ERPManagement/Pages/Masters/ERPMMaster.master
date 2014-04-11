@@ -1,0 +1,30 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="ERPMMaster.master.cs" Inherits="ERPManagement.Pages.Masters.ERPMMaster" %>
+
+<%@ Register TagPrefix="MQ" TagName="FuncMenuList" Src="~/Controls/FunctionMenuList.ascx" %>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+	<title>ERP Management Console</title>
+	<asp:ContentPlaceHolder ID="head" runat="server">
+		<link rel="stylesheet" href="/Content/CSS/Styles.css" />
+	</asp:ContentPlaceHolder>
+</head>
+<body>
+	<form id="form1" runat="server">
+		<div id="header">
+			<div class="title">
+				ERP Management Console
+			</div>
+		</div>
+		<div id="menu">
+			<MQ:FuncMenuList runat="server" />
+		</div>
+		<div id="content">
+			<asp:ContentPlaceHolder ID="ContentHolder" runat="server">
+			
+			</asp:ContentPlaceHolder>
+		</div>
+	</form>
+</body>
+</html>

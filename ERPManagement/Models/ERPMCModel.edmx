@@ -1,0 +1,392 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ERPMCModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ERPMCModelStoreContainer">
+    <EntitySet Name="CustomerSet" EntityType="ERPMCModel.Store.CustomerSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustomizedRDLCSet" EntityType="ERPMCModel.Store.CustomizedRDLCSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FuncMenuSet" EntityType="ERPMCModel.Store.FuncMenuSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AdminMenuSet" EntityType="ERPMCModel.Store.AdminMenuSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ModifiedRDLCSet" EntityType="ERPMCModel.Store.ModifiedRDLCSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SqlExecutionSet" EntityType="ERPMCModel.Store.SqlExecutionSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LogSet" EntityType="ERPMCModel.Store.LogSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ModifiedRDLCCustomizedRDLC" EntityType="ERPMCModel.Store.ModifiedRDLCCustomizedRDLC" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="CustomerCustomizedRDLC" Association="ERPMCModel.Store.CustomerCustomizedRDLC">
+      <End Role="Customer" EntitySet="CustomerSet" />
+      <End Role="CustomizedRDLC" EntitySet="CustomizedRDLCSet" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ModifiedRDLCCustomizedRDLC_ModifiedRDLC" Association="ERPMCModel.Store.FK_ModifiedRDLCCustomizedRDLC_ModifiedRDLC">
+      <End Role="ModifiedRDLC" EntitySet="ModifiedRDLCSet" />
+      <End Role="ModifiedRDLCCustomizedRDLC" EntitySet="ModifiedRDLCCustomizedRDLC" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ModifiedRDLCCustomizedRDLC_CustomizedRDLC" Association="ERPMCModel.Store.FK_ModifiedRDLCCustomizedRDLC_CustomizedRDLC">
+      <End Role="CustomizedRDLC" EntitySet="CustomizedRDLCSet" />
+      <End Role="ModifiedRDLCCustomizedRDLC" EntitySet="ModifiedRDLCCustomizedRDLC" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="CustomerSet">
+    <Key>
+      <PropertyRef Name="CustomoerId" />
+    </Key>
+    <Property Name="CustomoerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Version" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="SIerManaged" Type="int" Nullable="false" />
+    <Property Name="DBServerName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DBLoginName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DBLoginPassword" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DBBizName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DBSysname" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustomizedRDLCSet">
+    <Key>
+      <PropertyRef Name="CustomizedRDLCId" />
+    </Key>
+    <Property Name="CustomizedRDLCId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PrintId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Version" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CustomoerId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FuncMenuSet">
+    <Key>
+      <PropertyRef Name="FuncMenuId" />
+    </Key>
+    <Property Name="FuncMenuId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UrlSection" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ParentId" Type="int" Nullable="false" />
+    <Property Name="Order" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AdminMenuSet">
+    <Key>
+      <PropertyRef Name="AdminMenuId" />
+    </Key>
+    <Property Name="AdminMenuId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ParentId" Type="int" Nullable="false" />
+    <Property Name="Order" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ModifiedRDLCSet">
+    <Key>
+      <PropertyRef Name="ModifiedRDLCId" />
+    </Key>
+    <Property Name="ModifiedRDLCId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PrintId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Version" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SqlExecutionSet">
+    <Key>
+      <PropertyRef Name="SqlExecutionId" />
+    </Key>
+    <Property Name="SqlExecutionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CreatedTime" Type="datetime" Nullable="false" />
+    <Property Name="ExecutedTime" Type="datetime" Nullable="true" />
+    <Property Name="ScriptFileName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ScriptFilePath" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="BackupFileName" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="BackupFilePath" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="LogId" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="LogFileName" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="LogFilePath" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="LogSet">
+    <Key>
+      <PropertyRef Name="LogId" />
+    </Key>
+    <Property Name="LogId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="int" Nullable="false" />
+    <Property Name="RelatedId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreatedTime" Type="datetime" Nullable="true" />
+  </EntityType>
+  <EntityType Name="ModifiedRDLCCustomizedRDLC">
+    <Key>
+      <PropertyRef Name="ModifiedRDLC_ModifiedRDLCId" />
+      <PropertyRef Name="CustomizedRDLC_CustomizedRDLCId" />
+    </Key>
+    <Property Name="ModifiedRDLC_ModifiedRDLCId" Type="int" Nullable="false" />
+    <Property Name="CustomizedRDLC_CustomizedRDLCId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="CustomerCustomizedRDLC">
+    <End Role="Customer" Type="ERPMCModel.Store.CustomerSet" Multiplicity="1" />
+    <End Role="CustomizedRDLC" Type="ERPMCModel.Store.CustomizedRDLCSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="CustomoerId" />
+      </Principal>
+      <Dependent Role="CustomizedRDLC">
+        <PropertyRef Name="CustomoerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ModifiedRDLCCustomizedRDLC_ModifiedRDLC">
+    <End Role="ModifiedRDLC" Type="ERPMCModel.Store.ModifiedRDLCSet" Multiplicity="1" />
+    <End Role="ModifiedRDLCCustomizedRDLC" Type="ERPMCModel.Store.ModifiedRDLCCustomizedRDLC" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ModifiedRDLC">
+        <PropertyRef Name="ModifiedRDLCId" />
+      </Principal>
+      <Dependent Role="ModifiedRDLCCustomizedRDLC">
+        <PropertyRef Name="ModifiedRDLC_ModifiedRDLCId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ModifiedRDLCCustomizedRDLC_CustomizedRDLC">
+    <End Role="ModifiedRDLCCustomizedRDLC" Type="ERPMCModel.Store.ModifiedRDLCCustomizedRDLC" Multiplicity="*" />
+    <End Role="CustomizedRDLC" Type="ERPMCModel.Store.CustomizedRDLCSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="CustomizedRDLC">
+        <PropertyRef Name="CustomizedRDLCId" />
+      </Principal>
+      <Dependent Role="ModifiedRDLCCustomizedRDLC">
+        <PropertyRef Name="CustomizedRDLC_CustomizedRDLCId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ERPMCModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ERPMCModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CustomerSet" EntityType="ERPMCModel.Customer" />
+          <EntitySet Name="CustomizedRDLCSet" EntityType="ERPMCModel.CustomizedRDLC" />
+          <EntitySet Name="FuncMenuSet" EntityType="ERPMCModel.FuncMenu" />
+          <EntitySet Name="AdminMenuSet" EntityType="ERPMCModel.AdminMenu" />
+          <EntitySet Name="ModifiedRDLCSet" EntityType="ERPMCModel.ModifiedRDLC" />
+          <AssociationSet Name="CustomerCustomizedRDLC" Association="ERPMCModel.CustomerCustomizedRDLC">
+            <End Role="Customer" EntitySet="CustomerSet" />
+            <End Role="CustomizedRDLC" EntitySet="CustomizedRDLCSet" />
+          </AssociationSet>
+          <AssociationSet Name="ModifiedRDLCCustomizedRDLC" Association="ERPMCModel.ModifiedRDLCCustomizedRDLC">
+            <End Role="ModifiedRDLC" EntitySet="ModifiedRDLCSet" />
+            <End Role="CustomizedRDLC" EntitySet="CustomizedRDLCSet" />
+          </AssociationSet>
+          <EntitySet Name="SqlExecutionSet" EntityType="ERPMCModel.SqlExecution" />
+          <EntitySet Name="LogSet" EntityType="ERPMCModel.Log" />
+        </EntityContainer>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomoerId" />
+          </Key>
+          <Property Name="CustomoerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Version" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="CustomizedRDLC" Relationship="ERPMCModel.CustomerCustomizedRDLC" FromRole="Customer" ToRole="CustomizedRDLC" />
+          <Property Name="SIerManaged" Type="Int32" Nullable="false" />
+          <Property Name="DBServerName" Type="String" Nullable="false" />
+          <Property Name="DBLoginName" Type="String" Nullable="false" />
+          <Property Name="DBLoginPassword" Type="String" Nullable="false" />
+          <Property Name="DBBizName" Type="String" Nullable="false" />
+          <Property Name="DBSysname" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CustomizedRDLC">
+          <Key>
+            <PropertyRef Name="CustomizedRDLCId" />
+          </Key>
+          <Property Name="CustomizedRDLCId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PrintId" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Version" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Customer" Relationship="ERPMCModel.CustomerCustomizedRDLC" FromRole="CustomizedRDLC" ToRole="Customer" />
+          <Property Name="CustomoerId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ModifiedRDLC" Relationship="ERPMCModel.ModifiedRDLCCustomizedRDLC" FromRole="CustomizedRDLC" ToRole="ModifiedRDLC" />
+        </EntityType>
+        <EntityType Name="FuncMenu">
+          <Key>
+            <PropertyRef Name="FuncMenuId" />
+          </Key>
+          <Property Name="FuncMenuId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="UrlSection" Type="String" Nullable="false" />
+          <Property Name="ParentId" Type="Int32" Nullable="false" />
+          <Property Name="Order" Type="Int32" Nullable="false" />
+          </EntityType>
+        <EntityType Name="AdminMenu">
+          <Key>
+            <PropertyRef Name="AdminMenuId" />
+          </Key>
+          <Property Name="AdminMenuId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ParentId" Type="Int32" Nullable="false" />
+          <Property Name="Order" Type="Int32" Nullable="false" />
+          </EntityType>
+        <EntityType Name="ModifiedRDLC">
+          <Key>
+            <PropertyRef Name="ModifiedRDLCId" />
+          </Key>
+          <Property Name="ModifiedRDLCId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PrintId" Type="String" Nullable="false" />
+          <Property Name="Version" Type="String" Nullable="false" />
+          <NavigationProperty Name="CustomizedRDLC" Relationship="ERPMCModel.ModifiedRDLCCustomizedRDLC" FromRole="ModifiedRDLC" ToRole="CustomizedRDLC" />
+        </EntityType>
+        <Association Name="CustomerCustomizedRDLC">
+          <End Type="ERPMCModel.Customer" Role="Customer" Multiplicity="1" />
+          <End Type="ERPMCModel.CustomizedRDLC" Role="CustomizedRDLC" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomoerId" />
+            </Principal>
+            <Dependent Role="CustomizedRDLC">
+              <PropertyRef Name="CustomoerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ModifiedRDLCCustomizedRDLC">
+          <End Type="ERPMCModel.ModifiedRDLC" Role="ModifiedRDLC" Multiplicity="*" />
+          <End Type="ERPMCModel.CustomizedRDLC" Role="CustomizedRDLC" Multiplicity="*" />
+        </Association>
+        <EntityType Name="SqlExecution">
+          <Key>
+            <PropertyRef Name="SqlExecutionId" />
+          </Key>
+          <Property Name="SqlExecutionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="String" Nullable="false" />
+          <Property Name="DBType" Type="String" Nullable="false" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="false" />
+          <Property Name="ExecutedTime" Type="DateTime" Nullable="true" />
+          <Property Name="ScriptFileName" Type="String" Nullable="false" />
+          <Property Name="ScriptFilePath" Type="String" Nullable="false" />
+          <Property Name="BackupFileName" Type="String" Nullable="true" />
+          <Property Name="BackupFilePath" Type="String" Nullable="true" />
+          <Property Name="LogId" Type="String" Nullable="true" />
+          <Property Name="LogFileName" Type="String" Nullable="true" />
+          <Property Name="LogFilePath" Type="String" Nullable="true" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="LogId" />
+          </Key>
+          <Property Name="LogId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="Int32" Nullable="false" />
+          <Property Name="RelatedId" Type="String" Nullable="false" />
+          <Property Name="Content" Type="String" Nullable="false" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ERPMCModelStoreContainer" CdmEntityContainer="ERPMCModelContainer">
+    <EntitySetMapping Name="CustomerSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ERPMCModel.Customer)">
+        <MappingFragment StoreEntitySet="CustomerSet">
+          <ScalarProperty Name="CustomoerId" ColumnName="CustomoerId" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Version" ColumnName="Version" />
+          <ScalarProperty Name="SIerManaged" ColumnName="SIerManaged" />
+          <ScalarProperty Name="DBServerName" ColumnName="DBServerName" />
+          <ScalarProperty Name="DBLoginName" ColumnName="DBLoginName" />
+          <ScalarProperty Name="DBLoginPassword" ColumnName="DBLoginPassword" />
+          <ScalarProperty Name="DBBizName" ColumnName="DBBizName" />
+          <ScalarProperty Name="DBSysname" ColumnName="DBSysname" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustomizedRDLCSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ERPMCModel.CustomizedRDLC)">
+        <MappingFragment StoreEntitySet="CustomizedRDLCSet">
+          <ScalarProperty Name="CustomizedRDLCId" ColumnName="CustomizedRDLCId" />
+          <ScalarProperty Name="PrintId" ColumnName="PrintId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Version" ColumnName="Version" />
+          <ScalarProperty Name="CustomoerId" ColumnName="CustomoerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FuncMenuSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ERPMCModel.FuncMenu)">
+        <MappingFragment StoreEntitySet="FuncMenuSet">
+          <ScalarProperty Name="FuncMenuId" ColumnName="FuncMenuId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="UrlSection" ColumnName="UrlSection" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="Order" ColumnName="Order" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AdminMenuSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ERPMCModel.AdminMenu)">
+        <MappingFragment StoreEntitySet="AdminMenuSet">
+          <ScalarProperty Name="AdminMenuId" ColumnName="AdminMenuId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="Order" ColumnName="Order" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ModifiedRDLCSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ERPMCModel.ModifiedRDLC)">
+        <MappingFragment StoreEntitySet="ModifiedRDLCSet">
+          <ScalarProperty Name="ModifiedRDLCId" ColumnName="ModifiedRDLCId" />
+          <ScalarProperty Name="PrintId" ColumnName="PrintId" />
+          <ScalarProperty Name="Version" ColumnName="Version" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SqlExecutionSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ERPMCModel.SqlExecution)">
+        <MappingFragment StoreEntitySet="SqlExecutionSet">
+          <ScalarProperty Name="SqlExecutionId" ColumnName="SqlExecutionId" />
+          <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+          <ScalarProperty Name="ExecutedTime" ColumnName="ExecutedTime" />
+          <ScalarProperty Name="ScriptFileName" ColumnName="ScriptFileName" />
+          <ScalarProperty Name="ScriptFilePath" ColumnName="ScriptFilePath" />
+          <ScalarProperty Name="BackupFileName" ColumnName="BackupFileName" />
+          <ScalarProperty Name="BackupFilePath" ColumnName="BackupFilePath" />
+          <ScalarProperty Name="LogId" ColumnName="LogId" />
+          <ScalarProperty Name="LogFileName" ColumnName="LogFileName" />
+          <ScalarProperty Name="LogFilePath" ColumnName="LogFilePath" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LogSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ERPMCModel.Log)">
+        <MappingFragment StoreEntitySet="LogSet">
+          <ScalarProperty Name="LogId" ColumnName="LogId" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="RelatedId" ColumnName="RelatedId" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="ModifiedRDLCCustomizedRDLC" TypeName="ERPMCModel.ModifiedRDLCCustomizedRDLC" StoreEntitySet="ModifiedRDLCCustomizedRDLC">
+      <EndProperty Name="ModifiedRDLC">
+        <ScalarProperty Name="ModifiedRDLCId" ColumnName="ModifiedRDLC_ModifiedRDLCId" />
+      </EndProperty>
+      <EndProperty Name="CustomizedRDLC">
+        <ScalarProperty Name="CustomizedRDLCId" ColumnName="CustomizedRDLC_CustomizedRDLCId" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
