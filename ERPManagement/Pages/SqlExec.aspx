@@ -4,7 +4,7 @@
 <%@ Register TagPrefix="MQ" TagName="CustomerList" Src="~/Controls/CustomerList.ascx" %>
 
 <asp:Content ContentPlaceHolderID="ContentHolder" runat="server">
-	<MQ:CustomerList runat="server" />
+	<MQ:CustomerList ID="ucCustomerList" runat="server" />
 
 	<div id="functionContent" runat="server">
 	<% if (this.customerCount == 1) { %>
