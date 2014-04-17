@@ -4,21 +4,18 @@
 <%@ Register TagPrefix="MQ" TagName="CustomerList" Src="~/Controls/CustomerList.ascx" %>
 
 <asp:Content ContentPlaceHolderID="ContentHolder" runat="server">
-	<MQ:CustomerList ID="ucCustomerList" runat="server" />
+	<MQ:CustomerList runat="server" ID="ucCustomerList"/>
 
 	<div id="functionContent" runat="server">
-	<% if (this.customerCount == 1) { %>
+	<% if (customerCount == 1) { %>
 
 		<div>
-			<span>System Dababase: </span>
-			<span><% =this.customers.First().DBSysname %></span>
-			<br />
-			<span>Business Database: </span>
-			<span><% =this.customers.First().DBBizName %></span>
+			<asp:RadioButtonList AutoPostBack="true" OnSelectedIndexChanged="rblDBSelection_SelectedIndexChanged" ID="rblDBSelection" runat="server">
+			</asp:RadioButtonList>
 		</div>
 		
 		<div>
-			<asp:FileUpload id="SqlUploader" runat="server" />
+			<asp:FileUpload id="fuplSqlUploader" runat="server" />
 			<asp:Button id="btnSqlUploader" text="Upload" OnClick="btnSqlUploader_Click" runat="server" />
 			<br />
 			<asp:Button ID="btnSqlExecution" text="Exec" OnClick="btnSqlExecution_Click" runat="server" />
@@ -36,7 +33,7 @@
 			<asp:Label ID="lblExecuMsg" runat="server"></asp:Label>
 		</div>
 
-	<% } // (if this.customerCOunt == 1) %>
+	<% } // (customerCount == 1) %>
 	</div>
-
+	<% =customerCount %>
 </asp:Content>

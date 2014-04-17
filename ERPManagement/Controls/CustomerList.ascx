@@ -2,7 +2,7 @@
 	Inherits="ERPManagement.Controls.CustomerList" %>
 
 <div id="cumstomerList">
-	<asp:Repeater ItemType="ERPManagement.Models.Customer" SelectMethod="GetCustomers" runat="server">
+	<asp:Repeater ID="rptCustomerInfo" ItemType="ERPManagement.Models.Customer" SelectMethod="GetCustomers" runat="server">
 		<ItemTemplate>
 			<div>
 				<h3><a href="<%# GetCustomerLink(Item.Code) %>" ><%# Item.Code %></a></h3>

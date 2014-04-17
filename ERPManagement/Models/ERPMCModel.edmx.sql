@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 04/11/2014 17:13:20
--- Generated from EDMX file: C:\Users\g12330\Documents\GitHub\ERPManagement\ERPManagement\Models\ERPMCModel.edmx
+-- Date Created: 04/12/2014 15:01:03
+-- Generated from EDMX file: D:\Document_x64\Documents\Visual Studio 2013\Projects\ERPManagement\ERPManagement\Models\ERPMCModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -115,9 +115,12 @@ GO
 -- Creating table 'SqlExecutionSet'
 CREATE TABLE [dbo].[SqlExecutionSet] (
     [SqlExecutionId] int IDENTITY(1,1) NOT NULL,
+    [CustomerId] int  NOT NULL,
+    [DBType] int  NOT NULL,
     [CreatedTime] datetime  NOT NULL,
     [ExecutedTime] datetime  NULL,
-    [ScriptFileName] nvarchar(max)  NOT NULL,
+    [UploadFileName] nvarchar(max)  NOT NULL,
+    [SavedFileName] nvarchar(max)  NOT NULL,
     [ScriptFilePath] nvarchar(max)  NOT NULL,
     [BackupFileName] nvarchar(max)  NULL,
     [BackupFilePath] nvarchar(max)  NULL,
@@ -207,6 +210,7 @@ ADD CONSTRAINT [FK_CustomerCustomizedRDLC]
     REFERENCES [dbo].[CustomerSet]
         ([CustomoerId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_CustomerCustomizedRDLC'
 CREATE INDEX [IX_FK_CustomerCustomizedRDLC]
@@ -230,6 +234,7 @@ ADD CONSTRAINT [FK_ModifiedRDLCCustomizedRDLC_CustomizedRDLC]
     REFERENCES [dbo].[CustomizedRDLCSet]
         ([CustomizedRDLCId])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_ModifiedRDLCCustomizedRDLC_CustomizedRDLC'
 CREATE INDEX [IX_FK_ModifiedRDLCCustomizedRDLC_CustomizedRDLC]

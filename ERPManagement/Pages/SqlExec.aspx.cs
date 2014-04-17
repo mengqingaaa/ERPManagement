@@ -8,9 +8,11 @@ using System.IO;
 using System.Data.SqlClient;
 using System.Diagnostics;			//	For Executing sqlcmd.exe
 using System.Web.Configuration;		//	For fetching Web appSettings Configuration
-using ERPManagement.Models;
 using Microsoft.SqlServer.Management.Smo;
 using Microsoft.SqlServer.Management.Common;
+
+using ERPManagement.Models;
+using ERPManagement.Pages.Helpers;
 
 using ERPManagement.Pages.Helpers;
 
@@ -19,30 +21,67 @@ namespace ERPManagement.Pages
 	public partial class SqlExec : System.Web.UI.Page
 	{
 		protected int customerCount = 0;
-		protected IEnumerable<Customer> customers = null;
 	
-		private string sqlScriptContent;
-		private IEnumerable<SqlExecution> SqlExecutionSet = null;
+		private string sqlScriptContent = string.Empty;
+		private Customer customerEntity = null;
+		private int selectedDBType = 0;		//	DB:SqlExecution:DBType	0:Business DB	1:SystemDB	
+														// Values from rblDBSelection.SelectedIndex
 
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			IEnumerable<Customer> customerSet = new ERPMCModelContainer().CustomerSet;
 
-			this.customers = (this.Page.RouteData.Values["customer"] == null) ?
-				customerSet :
-				customerSet.Where(p => p.Code == this.Page.RouteData.Values["customer"].ToString());
+			using (var context = new ERPMCModelContainer())
+			{
+				string urlCustomerSeg = this.Page.RouteData.Values["customer"] == null ? string.Empty : this.Page.RouteData.Values["customer"].ToString();
+				if (urlCustomerSeg == string.Empty)
+					ucCustomerList.customers = context.CustomerSet.AsNoTracking().ToList();				// !!!!! ToList() save the Entities to the memory without relating to the Context
+				else
+					ucCustomerList.customers = context.CustomerSet.Where(p => p.Code == urlCustomerSeg).ToList();
 
-			this.customerCount = this.customers.Count();
-			if (this.customerCount == 1)
-				functionContent.Visible = true;
-			else
-				functionContent.Visible = false;
+				customerCount = ucCustomerList.customers.Count();
+				if (customerCount == 1)
+				{
+					customerEntity = ucCustomerList.customers.First();
+					functionContent.Visible = true;
+					if (!IsPostBack)
+					{
+						rblDBSelection.Items.Add(new ListItem(
+							string.Format("Business Database: {0}", customerEntity.DBBizName),
+							customerEntity.DBBizName
+							));
+						rblDBSelection.Items.Add(new ListItem(
+							string.Format("System Database: {0}", customerEntity.DBSysname),
+							customerEntity.DBSysname
+							));
+					}
+				}
+				else
+					functionContent.Visible = false;
+			}
 
 			lblUploaderMsg.Text = "";
 			btnSqlExecution.Enabled = false;		//	Disable btnSqlExecution
 			txtAreaSqlScriptContent.InnerText = "";
+
+			if (!IsPostBack)
+			{
+				btnSqlUploader.Enabled = false;
+				fuplSqlUploader.Enabled = false;
+				lblUploaderMsg.Text = "Please Select a Database";
+			}
+
 		}
 
+		/// <summary>
+		/// Upload the Sql script
+		/// </summary>
+		/// <remarks>
+		/// ViewState Add:
+		///	sqlFilePath: the full path of Sql script saved in local
+		///	logId: the logId related to the SqlExecution
+		/// </remarks>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		protected void btnSqlUploader_Click(object sender, EventArgs e)
 		{
 			if (!chkFileExist())
@@ -59,17 +98,19 @@ namespace ERPManagement.Pages
 				return;
 			}
 
-			string sqlFileName = Path.GetFileName(SqlUploader.PostedFile.FileName);
+			string uploadFileName = Path.GetFileName(fuplSqlUploader.PostedFile.FileName);
+			string savedFileName = "SQL" + Utility.getNowDateTime();
 			string sqlFilePath = Path.Combine(Request.PhysicalApplicationPath, 
 				"Uploads", 
-				sqlFileName
+				savedFileName
 				);
 			ViewState["sqlFilePath"] = sqlFilePath;		//	Save the sqlFilePath value to the ViewState for the Sql Execution
 
+			selectedDBType = rblDBSelection.SelectedIndex;		//	Get the selected DB type
 			try
 			{
-				SqlUploader.PostedFile.SaveAs(sqlFilePath);
-				lblUploaderMsg.Text = sqlFileName + " is uploaded";
+				fuplSqlUploader.PostedFile.SaveAs(sqlFilePath);			//	Save the Sql script file
+				lblUploaderMsg.Text = uploadFileName + " is uploaded";
 				btnSqlExecution.Enabled = true;			//	Enable btnSqlExectution
 
 				getSqlScriptContent(sqlFilePath);		// Read the Sql Script
@@ -77,8 +118,11 @@ namespace ERPManagement.Pages
 
 //				SqlExecutionSet = getSqlExecutionContext();						
 				SqlExecution newSqlExecutionEntry = new SqlExecution { 
+					CustomerId = customerEntity.CustomoerId,
+					DBType = selectedDBType,
 					CreatedTime = DateTime.Now,
-					ScriptFileName = sqlFileName,
+					UploadFileName = uploadFileName,
+					SavedFileName = savedFileName,
 					ScriptFilePath = Path.GetDirectoryName(sqlFilePath)
 					};
 				
@@ -99,6 +143,12 @@ namespace ERPManagement.Pages
 
 		}
 
+		/// <summary>
+		/// Execute the Sql script
+		/// Log: use the ViewState["LogId"] as key
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		protected void btnSqlExecution_Click(object sender, EventArgs e)
 		{
 			string sqlFilePath = ViewState["sqlFilePath"].ToString();
@@ -108,10 +158,10 @@ namespace ERPManagement.Pages
 
 			string sqlcmdFilePath = WebConfigurationManager.AppSettings["sqlcmdFilePath"];
 
-			string dbServer = this.customers.FirstOrDefault().DBServerName.ToString();
-			string dbLoginName = this.customers.FirstOrDefault().DBLoginName.ToString();
-			string dbPasswd = this.customers.FirstOrDefault().DBLoginPassword.ToString();
-			string sqlcmdArgs = string.Format("-S {0} -U {1} -P {2} -i {3}", dbServer, dbLoginName, dbPasswd, sqlFilePath);
+			string dbServer = customerEntity.DBServerName;
+			string dbLoginName = customerEntity.DBLoginName;
+			string dbPasswd = customerEntity.DBLoginPassword;
+			string sqlcmdArgs = string.Format("-S {0} -U {1} -P {2} -i \"{3}\"", dbServer, dbLoginName, dbPasswd, sqlFilePath);
 
 			lblUploaderMsg.Text = sqlcmdFilePath + " " + sqlcmdArgs;
 			try
@@ -139,7 +189,7 @@ namespace ERPManagement.Pages
 			}
 			catch (Exception err)
 			{
-				lblExecuMsg.Text = "aaa";
+				lblExecuMsg.Text = err.Message;
 			}
 
 			/*
@@ -168,14 +218,14 @@ namespace ERPManagement.Pages
 
 		private bool chkFileExist()
 		{
-			if (SqlUploader.PostedFile.FileName == "")
+			if (fuplSqlUploader.PostedFile.FileName == "")
 				return false;
 			return true;
 		}
 
 		private bool chkFileExtension()
 		{
-			string fileExtention = Path.GetExtension(SqlUploader.PostedFile.FileName);
+			string fileExtention = Path.GetExtension(fuplSqlUploader.PostedFile.FileName);
 
 			switch (fileExtention.ToLower())
 			{
@@ -195,9 +245,11 @@ namespace ERPManagement.Pages
 			streamReaderHandler.Close();
 		}
 
-		private IEnumerable<SqlExecution> getSqlExecutionContext()
+		protected void rblDBSelection_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			return new ERPMCModelContainer().SqlExecutionSet;
+			btnSqlUploader.Enabled = true;
+			fuplSqlUploader.Enabled = true;
+			lblUploaderMsg.Text = string.Format("{0} has been selected. Then please upload the Sql script file.", rblDBSelection.SelectedValue);
 		}
 
 	}

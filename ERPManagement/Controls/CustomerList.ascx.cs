@@ -12,8 +12,7 @@ namespace ERPManagement.Controls
 	public partial class CustomerList : System.Web.UI.UserControl
 	{
 		private string urlSegment;
-		private IEnumerable<Customer> customers;
-//		protected bool isCustomerExists = false;
+		public IEnumerable<Customer> customers = null;
 
 		protected void Page_Load(object sender, EventArgs e)
 		{
@@ -22,10 +21,6 @@ namespace ERPManagement.Controls
 			this.urlSegment = (this.Request.Url.Segments.Length > 1) ? 
 				this.Request.Url.Segments[1].TrimEnd('/') :
 				null;
-
-			this.customers = (this.Page.RouteData.Values["customer"] == null) ?
-				customerSet :
-				customerSet.Where(p => p.Code == this.Page.RouteData.Values["customer"].ToString());
 
 			if (this.customers.Any())
 				divErrNotExist.Visible = false;

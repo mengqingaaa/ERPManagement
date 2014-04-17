@@ -84,9 +84,12 @@
       <PropertyRef Name="SqlExecutionId" />
     </Key>
     <Property Name="SqlExecutionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerId" Type="int" Nullable="false" />
+    <Property Name="DBType" Type="int" Nullable="false" />
     <Property Name="CreatedTime" Type="datetime" Nullable="false" />
     <Property Name="ExecutedTime" Type="datetime" Nullable="true" />
-    <Property Name="ScriptFileName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="UploadFileName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="SavedFileName" Type="nvarchar(max)" Nullable="false" />
     <Property Name="ScriptFilePath" Type="nvarchar(max)" Nullable="false" />
     <Property Name="BackupFileName" Type="nvarchar(max)" Nullable="true" />
     <Property Name="BackupFilePath" Type="nvarchar(max)" Nullable="true" />
@@ -246,11 +249,12 @@
             <PropertyRef Name="SqlExecutionId" />
           </Key>
           <Property Name="SqlExecutionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CustomerId" Type="String" Nullable="false" />
-          <Property Name="DBType" Type="String" Nullable="false" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="DBType" Type="Int32" Nullable="false" />
           <Property Name="CreatedTime" Type="DateTime" Nullable="false" />
           <Property Name="ExecutedTime" Type="DateTime" Nullable="true" />
-          <Property Name="ScriptFileName" Type="String" Nullable="false" />
+          <Property Name="UploadFileName" Type="String" Nullable="false" />
+          <Property Name="SavedFileName" Type="String" Nullable="false" />
           <Property Name="ScriptFilePath" Type="String" Nullable="false" />
           <Property Name="BackupFileName" Type="String" Nullable="true" />
           <Property Name="BackupFilePath" Type="String" Nullable="true" />
@@ -335,9 +339,12 @@
       <EntityTypeMapping TypeName="IsTypeOf(ERPMCModel.SqlExecution)">
         <MappingFragment StoreEntitySet="SqlExecutionSet">
           <ScalarProperty Name="SqlExecutionId" ColumnName="SqlExecutionId" />
+          <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+          <ScalarProperty Name="DBType" ColumnName="DBType" />
           <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
           <ScalarProperty Name="ExecutedTime" ColumnName="ExecutedTime" />
-          <ScalarProperty Name="ScriptFileName" ColumnName="ScriptFileName" />
+          <ScalarProperty Name="UploadFileName" ColumnName="UploadFileName" />
+          <ScalarProperty Name="SavedFileName" ColumnName="SavedFileName" />
           <ScalarProperty Name="ScriptFilePath" ColumnName="ScriptFilePath" />
           <ScalarProperty Name="BackupFileName" ColumnName="BackupFileName" />
           <ScalarProperty Name="BackupFilePath" ColumnName="BackupFilePath" />

@@ -9,7 +9,7 @@ namespace ERPManagement.Pages.Helpers
 	{
 		static public string getNowDateTime()
 		{
-			string dateTimePattern = "yyyy-MM-dd HH:mm:ss.fff";
+			string dateTimePattern = "yyyyMMddHHmmssfff";
 			return DateTime.Now.ToString(dateTimePattern);
 		}
 	}

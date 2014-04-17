@@ -11,20 +11,28 @@
 	</asp:ContentPlaceHolder>
 </head>
 <body>
+	
 	<form id="form1" runat="server">
-		<div id="header">
-			<div class="title">
-				ERP Management Console
+		<div class="page-wrapper">
+			<div id="header">
+				<div class="title">
+					ERP Management Console
+				</div>
+			</div>
+			<aside id="menu">
+				<div class="menu-wrapper">
+					<h3>Menu</h3>
+					<MQ:FuncMenuList runat="server" />
+					<h3>Admin</h3>
+				</div>
+			</aside>
+			<div id="content">
+				<asp:ContentPlaceHolder ID="ContentHolder" runat="server">
+			
+				</asp:ContentPlaceHolder>
 			</div>
 		</div>
-		<div id="menu">
-			<MQ:FuncMenuList runat="server" />
-		</div>
-		<div id="content">
-			<asp:ContentPlaceHolder ID="ContentHolder" runat="server">
-			
-			</asp:ContentPlaceHolder>
-		</div>
 	</form>
+	
 </body>
 </html>
