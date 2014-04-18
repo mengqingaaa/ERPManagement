@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ERPMConsole.Model;
 
 
 namespace ERPMConsole
@@ -11,9 +12,8 @@ namespace ERPMConsole
 	{
 		static void Main(string[] args)
 		{
-			DateTime now = DateTime.Now;
-			string datetimePattern = "yyyy-MM-dd HH:mm:ss.fff";
-			Console.WriteLine(now.ToString(datetimePattern));
+			Console.WriteLine(Utility.GetRandomString(2,7));
+
 		}
 	}
 }
