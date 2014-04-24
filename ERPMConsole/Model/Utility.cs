@@ -45,5 +45,12 @@ namespace ERPMConsole.Model
 			string datetimePattern = "yyyy-MM-dd HH:mm:ss.fff";
 			return now.ToString(datetimePattern);
 		}
+
+		class Crypto
+		{
+			public string Passwd { get; set; }
+			public string Salt { get; set; }
+
+		}
 	}
 }
